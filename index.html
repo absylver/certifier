@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Generator</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- FontAwesome -->
+</head>
+<body>
+    <div class="container">
+        <header class="text-center my-4">
+            <h1>Certificate Generator</h1>
+        </header>
+        <main>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2>Upload Files</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="templateUpload">Upload Certificate Template (PNG):</label>
+                        <input type="file" class="form-control-file" id="templateUpload" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="spreadsheetUpload">Upload Name List (Excel):</label>
+                        <input type="file" class="form-control-file" id="spreadsheetUpload" accept=".xlsx, .xls">
+                    </div>
+                    <div class="form-group">
+                        <label for="fontUpload">Upload Custom Font:</label>
+                        <input type="file" class="form-control-file" id="fontUpload" accept=".ttf, .otf, .woff">
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2>Editing Tools</h2>
+                </div>
+                <div class="card-body d-flex flex-wrap">
+                    <div class="form-group col-6 col-md-4">
+                        <label for="fontSelect">Select Font:</label>
+                        <select class="form-control" id="fontSelect">
+                            <option value="Arial">Arial</option>
+                            <option value="FontAwesome">FontAwesome</option>
+                            <!-- Custom font options will be dynamically added -->
+                        </select>
+                    </div>
+                    <div class="form-group col-6 col-md-4">
+                        <label for="colorPicker">Select Color:</label>
+                        <input type="color" class="form-control" id="colorPicker">
+                    </div>
+                    <div class="form-group col-6 col-md-4">
+                        <label for="fontSizeInput">Font Size:</label>
+                        <input type="number" class="form-control" id="fontSizeInput" value="20" min="5" max="100">
+                    </div>
+                    <div class="form-group col-6 col-md-4">
+                        <label for="positionXInput">Position X:</label>
+                        <input type="number" class="form-control" id="positionXInput" value="50" min="0" max="1000">
+                    </div>
+                    <div class="form-group col-6 col-md-4">
+                        <label for="positionYInput">Position Y:</label>
+                        <input type="number" class="form-control" id="positionYInput" value="50" min="0" max="1000">
+                    </div>
+                    <div class="form-group col-6 col-md-4">
+                        <label for="widthInput">Width:</label>
+                        <input type="number" class="form-control" id="widthInput" value="200" min="0" max="1000">
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2>Preview</h2>
+                </div>
+                <div class="card-body text-center">
+                    <div id="certificatePreview" class="position-relative">
+                        <canvas id="canvas" class="border"></canvas>
+                        <div id="nameContainer" class="position-absolute text-center"></div>
+                    </div>
+                    <button class="btn btn-primary mt-3" id="downloadButton">Download PDF</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

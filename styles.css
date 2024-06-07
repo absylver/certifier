@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+#certificatePreview {
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: relative;
+}
+
+canvas {
+    width: 100%;
+    height: auto;
+}
+
+#nameContainer {
+    display: none;
+    border-bottom: 2px solid black;
+    position: absolute;
+    text-align: center;
+    transform: translateX(-50%);
+    left: 50%;
+}
