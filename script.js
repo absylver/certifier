@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const templateUpload = document.getElementById('templateUpload');
     const spreadsheetUpload = document.getElementById('spreadsheetUpload');
     const fontUpload = document.getElementById('fontUpload');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
     const fontSelect = document.getElementById('fontSelect');
     const colorPicker = document.getElementById('colorPicker');
     const downloadButton = document.getElementById('downloadButton');
@@ -12,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const positionYInput = document.getElementById('positionYInput');
     const widthInput = document.getElementById('widthInput');
     const nameContainer = document.getElementById('nameContainer');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
     let templateImage = null;
     let names = [];
@@ -19,12 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
     fontUpload.addEventListener('change', handleFontUpload);
     templateUpload.addEventListener('change', handleTemplateUpload);
     spreadsheetUpload.addEventListener('change', handleSpreadsheetUpload);
-    colorPicker.addEventListener('input', () => drawCertificate('Sample Name'));
-    fontSizeInput.addEventListener('input', () => drawCertificate('Sample Name'));
-    positionXInput.addEventListener('input', () => drawCertificate('Sample Name'));
-    positionYInput.addEventListener('input', () => drawCertificate('Sample Name'));
-    widthInput.addEventListener('input', () => drawCertificate('Sample Name'));
-    fontSelect.addEventListener('change', () => drawCertificate('Sample Name'));
+    colorPicker.addEventListener('input', () => drawName('Sample Name'));
+    fontSizeInput.addEventListener('input', () => drawName('Sample Name'));
+    positionXInput.addEventListener('input', () => drawName('Sample Name'));
+    positionYInput.addEventListener('input', () => drawName('Sample Name'));
+    widthInput.addEventListener('input', () => drawName('Sample Name'));
+    fontSelect.addEventListener('change', () => drawName('Sample Name'));
     downloadButton.addEventListener('click', downloadPDF);
 
     function handleFontUpload(event) {
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             img.src = reader.result;
             img.onload = () => {
                 templateImage = img;
-                drawCertificate('Sample Name');
+                drawName('Sample Name');
             };
         };
         reader.readAsDataURL(file);
@@ -69,44 +69,61 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsArrayBuffer(file);
     }
 
-    function drawCertificate(name = 'Sample Name') {
+    function drawName(name = 'Sample Name') {
         if (!templateImage) return;
         const currentFontSize = parseInt(fontSizeInput.value, 10);
         const currentX = parseInt(positionXInput.value, 10);
         const currentY = parseInt(positionYInput.value, 10);
         const currentWidth = parseInt(widthInput.value, 10);
         const currentColor = colorPicker.value;
-        const selectedFont = fontSelect.value || 'Arial';
+        const selectedFont = fontSelect.value;
 
+        // Clear and redraw the canvas with the template image
         canvas.width = templateImage.width;
         canvas.height = templateImage.height;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(templateImage, 0, 0);
 
-        // Update name container styles and content
-        nameContainer.style.fontSize = `${currentFontSize}px`;
-        nameContainer.style.top = `${currentY}px`;
+        // Update the name container's style
+        nameContainer.className = '';
+        nameContainer.classList.add(selectedFont === 'PinyonScript' ? 'pinyon-script-regular' : selectedFont);
         nameContainer.style.left = `${currentX}px`;
+        nameContainer.style.top = `${currentY}px`;
         nameContainer.style.width = `${currentWidth}px`;
-        nameContainer.style.fontFamily = selectedFont;
+        nameContainer.style.fontSize = `${currentFontSize}px`;
         nameContainer.style.color = currentColor;
-        nameContainer.textContent = name;
 
-        // Draw text on the canvas
-        ctx.font = `${currentFontSize}px ${selectedFont}`;
+        // Set the name text in the container
+        nameContainer.textContent = name;
+        nameContainer.style.display = 'block'; // Make it visible for text measurement
+
+        // Draw the name text centered on the canvas
+        ctx.font = `${currentFontSize}px ${selectedFont === 'PinyonScript' ? 'Pinyon Script' : selectedFont}`;
         ctx.fillStyle = currentColor;
         ctx.textAlign = 'center';
-        ctx.fillText(name, currentX + currentWidth / 2, currentY + currentFontSize / 2);
+        ctx.fillText(name, currentX + currentWidth / 2, currentY + currentFontSize);
+
+        nameContainer.style.display = 'none'; // Hide the container again
     }
 
     async function downloadPDF() {
         const { jsPDF } = window.jspdf;
-        for (let name of names) {
-            drawCertificate(name);
+
+        for (let i = 0; i < names.length; i++) {
+            const name = names[i];
+
+            drawName(name);
+
+            // Introduce a delay using a promise
+            await new Promise(resolve => setTimeout(resolve, 500));
+
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('landscape', 'pt', [canvas.width, canvas.height]);
             pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
             pdf.save(`${name}.pdf`);
         }
     }
+
+    // Draw initial sample name
+    drawName('Sample Name');
 });
