@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate Generator</title>
+    <title> Legates Certificate Generator</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -42,8 +45,7 @@
                         <label for="fontSelect">Select Font:</label>
                         <select class="form-control" id="fontSelect">
                             <option value="Arial">Arial</option>
-                            <option value="FontAwesome">FontAwesome</option>
-                            <!-- Custom font options will be dynamically added -->
+                            <option value="PinyonScript">Pinyon Script</option>
                         </select>
                     </div>
                     <div class="form-group col-6 col-md-4">
@@ -73,9 +75,9 @@
                     <h2>Preview</h2>
                 </div>
                 <div class="card-body text-center">
-                    <div id="certificatePreview" class="position-relative">
+                    <div id="certificatePreview">
                         <canvas id="canvas" class="border"></canvas>
-                        <div id="nameContainer" class="position-absolute text-center"></div>
+                        <div id="nameContainer" class="pinyon-scrpt-regular"></div>
                     </div>
                     <button class="btn btn-primary mt-3" id="downloadButton">Download PDF</button>
                 </div>
